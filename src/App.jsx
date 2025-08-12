@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
 import Home from './Home';
+import Signup from './Signup';
 import { SnackbarProvider } from 'notistack';
 
 const App = () => {
@@ -17,9 +18,10 @@ const App = () => {
       preventDuplicate
     >
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/Home" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
+        <Route path='/signup' element={<Signup/>} />
       </Routes>
     </SnackbarProvider>
   );

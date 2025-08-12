@@ -6,7 +6,7 @@ const Home = () => {
 const navigate = useNavigate();
   
   const handleLogout = () => {
-        localStorage.removeItem('Token');
+        localStorage.removeItem('token');
         navigate('/login');
   };
   return(

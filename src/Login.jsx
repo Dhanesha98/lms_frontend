@@ -1,10 +1,10 @@
-/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
 import { Typography, Box, Grid, Paper, Stack, TextField, Button } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import libraryImage from './assets/library.jpg';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -45,7 +45,12 @@ const Login = () => {
   }, [loggedIn, navigate]);
 
   return (
-    <Grid sx={{ display: 'flex' }}>
+    <Grid sx={{ 
+       display: 'flex', 
+    height: '100vh', 
+    overflow: 'hidden'
+
+     }}>
       <Grid
         sx={{
           width: '50%',
@@ -99,7 +104,7 @@ const Login = () => {
                 Sign In
               </Button>
               <Typography spacing={2} variant="h6" align="left" gutterBottom fontSize={14}>
-                Don't have an account?
+                Don't have an account? <Link to="/signup">Sign up</Link>
               </Typography>
             </Stack>
           </form>

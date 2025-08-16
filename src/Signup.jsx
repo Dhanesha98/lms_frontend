@@ -1,29 +1,18 @@
-import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {
-  TextField,
-  Button,
-  Grid,
-  Box,
-  Typography,
-  Paper
-} from "@mui/material";
-import { Link, useNavigate } from "react-router-dom"; 
+import { TextField, Button, Grid, Box, Typography, Paper } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const schema = yup.object({
   name: yup.string().required("Name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
-  password: yup
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+  password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match")
-    .required("Confirm Password is required")
+    .required("Confirm Password is required"),
 });
 
 export default function Signup() {
@@ -32,15 +21,15 @@ export default function Signup() {
   const {
     control,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       name: "",
       email: "",
       password: "",
-      confirmPassword: ""
-    }
+      confirmPassword: "",
+    },
   });
 
   const onSubmit = async (data) => {
@@ -48,7 +37,7 @@ export default function Signup() {
       const res = await axios.post("http://localhost:5000/api/auth/signup", {
         name: data.name,
         email: data.email,
-        password: data.password
+        password: data.password,
       });
 
       localStorage.setItem("token", res.data.token);
@@ -71,7 +60,7 @@ export default function Signup() {
               { name: "name", label: "Name" },
               { name: "email", label: "Email" },
               { name: "password", label: "Password", type: "password" },
-              { name: "confirmPassword", label: "Confirm Password", type: "password" }
+              { name: "confirmPassword", label: "Confirm Password", type: "password" },
             ].map((field) => (
               <Controller
                 key={field.name}

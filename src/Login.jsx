@@ -27,6 +27,9 @@ const Login = () => {
         variant: "success",
         autoHideDuration: 3000,
       });
+      setTimeout(() =>{
+        navigate("/home");
+      },3000);
       setLoggedIn(true);
     } catch (error) {
       console.log("Login failed, showing error snackbar", error); // Debug log

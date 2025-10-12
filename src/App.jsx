@@ -4,12 +4,26 @@ import Home from './Home';
 import Signup from './Signup';
 import Dashboard from './Dashboard'; 
 import UserManagement from './UserManagement';
+import UserManagementList from './UserManagementList'; // 👈 import it
 import BookList from './BookList';
 import { SnackbarProvider } from 'notistack';
+import { jwtDecode } from "jwt-decode";
 
 const App = () => {
   const isLoggedIn = !!localStorage.getItem('token');
-  const userRole = localStorage.getItem("role"); 
+  
+
+let userRole = null;
+const token = localStorage.getItem("token");
+if (token) {
+  try {
+    const decoded = jwtDecode(token);
+    userRole = decoded.role || decoded["custom:role"] || null;
+  } catch (err) {
+    console.error("Invalid token", err);
+  }
+}
+
 
   return (
     <SnackbarProvider
@@ -24,11 +38,20 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
 
         {/* Home layout with nested routes */}
-        <Route path="/home/*" element={isLoggedIn ? <Home /> : <Navigate to="/login" />}>
+        <Route
+          path="/home/*"
+          element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
+        >
           <Route index element={<Dashboard />} />
-           {userRole === "admin" && <Route path="users" element={<UserManagement />} />}
-         < Route path="books" element={<BookList />} />
-          </Route>
+
+          {userRole === "admin" && (
+            <Route path="users" element={<UserManagement />}>
+              <Route index element={<UserManagementList />} />
+            </Route>
+          )}
+
+          <Route path="books" element={<BookList />} />
+        </Route>
       </Routes>
     </SnackbarProvider>
   );
